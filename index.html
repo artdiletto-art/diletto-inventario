@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tutorial · Inventario Diletto Artesanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF8F5;--sf:#fff;--ink:#1D2B36;--mu:#6B7782;--ln:#E5E0D8;--ac:#B8452F;--as:#F7E9E4;--ok:#2F7D57;--oks:#E4F2EA;--wn:#A8710F;--wns:#FBF0D9;--bd:#B3261E;--bds:#FBE4E2;--serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16191D;--sf:#1F2329;--ink:#ECE8E2;--mu:#9AA3AB;--ln:#2C3138;--ac:#D9694F;--as:#3A2822;--ok:#5DB58A;--oks:#1D3228;--wn:#D9A441;--wns:#38301A;--bd:#E5645B;--bds:#3B2220}}
+:root[data-theme="dark"]{--bg:#16191D;--sf:#1F2329;--ink:#ECE8E2;--mu:#9AA3AB;--ln:#2C3138;--ac:#D9694F;--as:#3A2822;--ok:#5DB58A;--oks:#1D3228;--wn:#D9A441;--wns:#38301A;--bd:#E5645B;--bds:#3B2220}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:940px;margin:0 auto;padding:22px 16px 40px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.mark{width:40px;height:40px;border-radius:12px;background:var(--ac);color:#fff;display:grid;place-items:center;font:600 22px var(--serif)}
+header b{display:block;font:600 17px var(--serif)}header span{color:var(--mu);font-size:13px}
+.player{background:var(--sf);border:1px solid var(--ln);border-radius:20px;overflow:hidden;box-shadow:0 8px 30px rgba(29,43,54,.07)}
+.stage{padding:22px;background:linear-gradient(160deg,var(--as),transparent 60%);min-height:330px;display:grid;align-items:center}
+.cap{padding:18px 22px 6px}
+.cap small{color:var(--ac);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-size:12px}
+.cap h2{margin:2px 0 8px;font:500 24px var(--serif)}
+.cap p{margin:0;font-size:17px;min-height:52px;animation:in .4s}
+.dots{display:flex;gap:6px;padding:8px 22px 14px}.dots i{height:5px;flex:1;border-radius:4px;background:var(--ln);transition:.3s}.dots i.d{background:var(--ac)}
+.ctl{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid var(--ln)}
+.ctl button{border:1px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:10px;padding:8px 14px;cursor:pointer;font:500 14px var(--sans)}
+.ctl button.p{background:var(--ac);border-color:var(--ac);color:#fff;min-width:112px}
+.bar{flex:1;height:7px;background:var(--ln);border-radius:8px;overflow:hidden}.bar div{height:100%;width:0;background:var(--ac);transition:width .4s}
+.ctl em{font-style:normal;color:var(--mu);font-size:13px;white-space:nowrap}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:16px 2px 4px;scrollbar-width:thin}
+.chips button{flex:none;border:1px solid var(--ln);background:var(--sf);color:var(--mu);border-radius:20px;padding:8px 14px;cursor:pointer;font:500 13px var(--sans)}
+.chips button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.hint{color:var(--mu);font-size:13px;text-align:center;margin-top:14px}
+/* maqueta de la app */
+.app{background:var(--bg);border:1px solid var(--ln);border-radius:14px;overflow:hidden;max-width:620px;width:100%;margin:0 auto;box-shadow:0 10px 30px rgba(29,43,54,.1);animation:in .5s}
+.tb{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--ln);background:var(--sf)}.tb i{width:9px;height:9px;border-radius:50%;background:var(--ln)}.tb span{margin-left:8px;font-size:12px;color:var(--mu)}
+.bd{padding:14px;display:grid;gap:10px}
+.nv{display:flex;gap:6px;flex-wrap:wrap}.nv span,.fl span{padding:5px 11px;border:1px solid var(--ln);border-radius:20px;font-size:12px;color:var(--mu);background:var(--sf)}.nv span:first-child,.fl span.s{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.c,.kp div{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:10px 12px}
+.kp small,.f small{display:block;color:var(--mu);font-size:11px}.kp b{font:500 20px var(--serif)}
+.r{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:10px 12px;font-size:14px}
+.r small{color:var(--mu)}
+.bx{width:20px;height:20px;border:2px solid var(--ln);border-radius:6px;flex:none;display:inline-grid;place-items:center;transition:.2s;margin-right:10px;vertical-align:middle}
+.tg{cursor:pointer}.tg.on .bx{background:var(--ok);border-color:var(--ok)}.tg.on .bx::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.tg.on b{text-decoration:line-through;opacity:.5}
+.bt,.b{display:inline-block;border:1px solid var(--ln);background:var(--sf);border-radius:10px;padding:7px 12px;font-size:13px;font-weight:500}
+.bt.a{background:var(--ac);border-color:var(--ac);color:#fff}.b.w{color:#1f7a4f;background:var(--oks)}
+.f{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:8px 12px;font-size:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bg{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.bg.o{background:var(--oks);color:var(--ok)}.bg.w{background:var(--wns);color:var(--wn)}.bg.x{background:var(--bds);color:var(--bd)}
+.pgb{height:8px;background:var(--ln);border-radius:8px;overflow:hidden}.pgb i{display:block;height:100%;width:0;background:var(--ok);transition:width .6s}.pgb.on i{width:33%}
+.pop{opacity:0;transform:translateY(10px) scale(.97);transition:.45s;pointer-events:none}.pop.on{opacity:1;transform:none}
+.hl{outline:2px solid var(--ac);outline-offset:3px;border-radius:12px;animation:pu 1.2s infinite}
+.sheet{background:#fff;color:#1D2B36;border:1px solid #E2DCD3;border-radius:6px;padding:12px;font-size:11px;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.sheet h6{margin:0 0 8px;padding-bottom:6px;border-bottom:2px solid #B8452F;font:600 13px var(--serif)}
+.sheet div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee}.sheet div:last-child{border:0}
+.sheet u{display:inline-block;width:9px;height:9px;border:1px solid #aaa;border-radius:2px;margin-left:10px}
+.dg{font-weight:700;color:var(--ok)}
+.tst{background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 14px;font-size:13px;display:flex;justify-content:space-between;gap:16px}.tst u{color:var(--as);font-weight:700}
+.bk{background:var(--as);border-color:var(--ac)}
+@keyframes pu{0%,100%{box-shadow:0 0 0 0 rgba(184,69,47,.35)}50%{box-shadow:0 0 0 8px rgba(184,69,47,0)}}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:560px){.stage{padding:14px;min-height:300px}.cap h2{font-size:21px}.cap p{font-size:16px}.ctl em{display:none}.kp b{font-size:17px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="mark">D</div><div><b>Diletto Artesanal</b><span>Tutorial · Control de inventario</span></div></header>
+  <div class="player">
+    <div class="stage" id="stage"></div>
+    <div class="cap"><small id="sc"></small><h2 id="st"></h2><p id="tx"></p></div>
+    <div class="dots" id="dots"></div>
+    <div class="ctl"><button id="pv" aria-label="Escena anterior">◀</button><button class="p" id="pl">❚❚ Pausa</button><button id="nx" aria-label="Escena siguiente">▶</button><div class="bar"><div id="pb"></div></div><em id="cn"></em></div>
+  </div>
+  <div class="chips" id="chips" role="tablist"></div>
+  <p class="hint">Toca cualquier escena para saltar a ella. En la escena de la lista puedes tocar los productos para marcarlos. Atajos: espacio = pausa, ← → = cambiar de escena.</p>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const S=[
+{k:'Inicio',t:'Tu panel de inicio',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Resumen</span></div><div class="bd"><div class="nv">${['Resumen','Lista','Catálogo','Compras','Ventas y uso','Proveedores'].map(x=>`<span>${x}</span>`).join('')}</div><div class="kp"><div><small>Inversión</small><b>S/ 227.40</b></div><div><small>Productos</small><b>146</b></div><div><small>Agotados</small><b style="color:var(--bd)">96</b></div></div><div class="c vb"><b style="font:500 16px var(--serif)">Por vencer</b><div class="r" style="margin-top:8px">Queso mozzarella <span class="bg w">En 3 días</span></div></div></div></div>`,
+ st:[['Arriba ves de un vistazo tu inversión, lo agotado y lo que está bajo el mínimo.','.kp'],['El recuadro “Por vencer” te avisa qué vence en 7 días o ya venció.','.vb'],['Estos botones te llevan a cada apartado. En el celular están abajo.','.nv']]},
+{k:'Catálogo',t:'Registra tus productos',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Catálogo · Nuevo producto</span></div><div class="bd"><div><span class="bt a bt1">+ Nuevo producto</span></div><div class="g2"><div class="f"><small>Producto</small>Harina espiga de oro</div><div class="f"><small>Unidad</small>Kg</div><div class="f"><small>Mínimo</small>1</div><div class="f"><small>Cantidad de reorden</small>2</div></div><div class="f sp"><small>Proveedor habitual</small>Comercial Maysu</div><div class="r st pop"><span>Harina espiga de oro <small>· stock 0 Kg</small></span><span class="bg x">Agotado</span></div></div></div>`,
+ st:[['En Catálogo toca “Nuevo producto” y completa nombre, unidad, mínimo y cantidad de reorden.','.bt1'],['Elige su proveedor habitual: con eso se arman los pedidos por proveedor.','.sp'],['El stock y el estado (agotado, reabastecer u óptimo) se calculan solos.','.st','.st']]},
+{k:'Compras',t:'Anota lo que compras',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Compras · Registrar compra</span></div><div class="bd"><div class="f a1"><small>Producto</small>Harina espiga de oro</div><div class="g2"><div class="f a1"><small>Cantidad</small>2 Kg</div><div class="f a1"><small>Costo total</small>S/ 9.00</div></div><div class="r a2 pop"><span>Costo unitario</span><b>S/ 4.50 por Kg</b></div><div class="f a3"><small>Fecha de vencimiento (opcional)</small>15/12/2026</div><div class="r a4 pop" style="background:var(--oks)"><span>Stock actualizado</span><b>0 → 2 Kg</b></div></div></div>`,
+ st:[['En Compras toca “Registrar compra” y elige producto, cantidad y costo total.','.a1'],['El costo unitario se calcula solo.','.a2','.a2'],['Si el producto trae fecha de vencimiento, anótala: recibirás avisos.','.a3'],['Al guardar, el stock sube automáticamente.','.a4','.a4']]},
+{k:'Lista',t:'Tu lista de compras en el celular',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Lista de compras</span></div><div class="bd"><div class="c pgb-w"><b>0 de 3 comprados</b><div class="pgb" style="margin-top:6px"><i></i></div></div><div class="fl nv"><span class="s">Por categoría</span><span>Por proveedor</span><span>Faltan</span></div><div class="r tg g f1"><span><i class="bx"></i><b style="font-weight:500">Aceite cocinero</b></span><span><b>3</b> UND</span></div><div class="r tg g"><span><i class="bx"></i><b style="font-weight:500">Azúcar blanca</b></span><span><b>3</b> Kg</span></div><div class="r tg g"><span><i class="bx"></i><b style="font-weight:500">Fresas</b></span><span><b>1</b> Kg</span></div></div></div>`,
+ st:[['La lista reúne todo lo agotado o bajo el mínimo, con la cantidad a comprar.','.g'],['Toca un producto para marcarlo como comprado. El avance se guarda. ¡Pruébalo!','.g','.f1'],['Agrupa por categoría o por proveedor, y filtra por Faltan o Comprados.','.fl'],['“Copiar” te da lo pendiente listo para pegar en WhatsApp.','.pgb-w']]},
+{k:'Pedido',t:'Pedido por proveedor en PDF',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Lista · Por proveedor</span></div><div class="bd"><div class="r"><b>Comercial Maysu</b><span class="bt pd">Pedido</span></div><div class="g2"><div class="sheet pdf pop"><h6>Pedido de compra</h6><div>Harina espiga de oro<span>2 Kg <u></u></span></div><div>Azúcar blanca<span>3 Kg <u></u></span></div><div>Fresas<span>1 Kg <u></u></span></div></div><div style="display:grid;gap:8px;align-content:center"><span class="b w wa pop">Enviar por WhatsApp</span><span class="b">Descargar PDF</span></div></div></div></div>`,
+ st:[['Agrupa la lista “Por proveedor”. Cada uno tiene su botón Pedido.','.pd'],['Agrega una fecha de entrega y una nota si quieres. El PDF sale con tu marca, sin precios.','.pdf','.pdf'],['Descárgalo o compártelo. Trae casillas “Recibido” y líneas de firma.','.pdf'],['También puedes mandar el pedido en texto directo por WhatsApp.','.wa','.wa']]},
+{k:'Conteo',t:'Conteo físico',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Catálogo · Conteo físico</span></div><div class="bd"><div><span class="bt bt1">Conteo físico</span> <span class="bt a ap">Aplicar conteo (2)</span></div>${[['Harina espiga de oro','2','2 ','+0'],['Fresas','1','0.5','−0.5'],['Queso mozzarella','4','5','+1']].map((x,n)=>`<div class="r c${n}"><span>${x[0]}<br><small>En sistema ${x[1]}</small></span><span class="f" style="padding:4px 12px;min-width:64px;text-align:right">${x[2]}</span><span class="dg pop d${n}" style="${x[3][0]=='−'?'color:var(--bd)':''}">${x[3]}</span></div>`).join('')}</div></div>`,
+ st:[['En Catálogo toca “Conteo físico”.','.bt1'],['Escribe lo que realmente tienes en cada producto.','.c1'],['La diferencia aparece al instante.','.c2','.d1,.d2'],['Toca “Aplicar conteo” y elige el motivo. Queda en el historial y puedes deshacerlo.','.ap']]},
+{k:'Lote',t:'Selecciona y elimina en lote',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Compras</span></div><div class="bd"><div class="r bk sa"><span><i class="bx" style="background:var(--ac);border-color:var(--ac)"></i><b>3 seleccionados</b></span><span class="bb"><span class="b">Asignar proveedor</span> <span class="b" style="color:var(--bd)">Eliminar (3)</span></span></div>${['Aceitunas verdes','Aceitunas negras','Ají amarillo'].map(x=>`<div class="r"><span><i class="bx"></i>${x}</span><small>13/02/2026</small></div>`).join('')}<div class="tst ud pop"><span>3 compras eliminadas</span><u>Deshacer</u></div></div></div>`,
+ st:[['En Catálogo, Compras, Ventas y Proveedores marca varios o usa “Seleccionar todos”.','.sa'],['Verás cuántos llevas y los botones Eliminar y Asignar proveedor.','.bb'],['Al eliminar tienes unos segundos para tocar “Deshacer”.','.ud','.ud']]},
+{k:'Vence',t:'Controla lo que vence',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Catálogo · Por vencer / vencidos</span></div><div class="bd"><div class="r e1"><span>Harina espiga de oro<br><small>Vence 15/12/2026</small></span><span class="bg o">Óptimo</span></div><div class="r e2"><span>Queso mozzarella<br><small>Vence 24/11/2026 · en 3 días</small></span><span class="bg w">Por vencer</span></div><div class="r e3"><span>Leche gloria azul<br><small>Vencido el 10/11/2026</small></span><span class="bg x">Vencido</span></div></div></div>`,
+ st:[['Cada producto muestra la fecha de vencimiento más próxima de lo que tienes en stock.','.e1'],['Amarillo: vence en 7 días o menos. Rojo: ya venció.','.e2'],['Filtra “Por vencer / vencidos” en el Catálogo y corrige lo vencido con el Conteo físico.','.e3']]},
+{k:'Extras',t:'Excel, respaldo y más',m:`<div class="app"><div class="tb"><i></i><i></i><i></i><span>Herramientas</span></div><div class="bd"><div class="nv"><span class="xl">Exportar Excel</span><span class="rs">Respaldo</span><span class="th">Tema claro / oscuro</span><span class="od">Ordenar apartados</span></div><div class="nv xs">${['Resumen','Falta comprar','Inventario','Compras','Salidas','Ajustes','Proveedores'].map(x=>`<span>${x}</span>`).join('')}</div></div></div>`,
+ st:[['Exportar Excel descarga un libro ordenado, una hoja por tema, listo para imprimir.','.xl','.xs'],['Respaldo guarda tus datos. Viven en cada dispositivo: pasa el respaldo al celular antes de salir.','.rs'],['Con el sol o la luna cambias entre tema claro y oscuro.','.th'],['Con las flechas arriba y abajo ordenas los apartados a tu gusto. ¡Eso es todo!','.od']]}
+];
+let i=0,j=0,playing=true,tm,total=S.reduce((a,s)=>a+s.st.length,0);
+const stage=$('#stage');
+$('#chips').innerHTML=S.map((s,n)=>`<button data-n="${n}" role="tab">${n+1}. ${s.k}</button>`).join('');
+function paint(redo){
+  const s=S[i];
+  if(redo){stage.innerHTML=s.m;$('#st').textContent=s.t;$('#sc').textContent='Escena '+(i+1)+' de '+S.length;
+    $('#dots').innerHTML=s.st.map(()=>'<i></i>').join('');
+    document.querySelectorAll('#chips button').forEach((b,n)=>b.classList.toggle('on',n===i));
+    const ch=document.querySelector('#chips .on');if(ch)ch.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});}
+  stage.querySelectorAll('.hl').forEach(e=>e.classList.remove('hl'));
+  s.st.slice(0,j+1).forEach(x=>{if(x[2])stage.querySelectorAll(x[2]).forEach(e=>e.classList.add('on'));});
+  stage.querySelectorAll(s.st[j][1]).forEach(e=>e.classList.add('hl'));
+  if(i===3){stage.querySelector('.pgb-w .pgb').classList.toggle('on',j>=1);stage.querySelector('.pgb-w b').textContent=(j>=1?1:0)+' de 3 comprados';}
+  const tx=$('#tx');tx.style.animation='none';tx.offsetHeight;tx.style.animation='';tx.textContent=s.st[j][0];
+  document.querySelectorAll('#dots i').forEach((d,n)=>d.classList.toggle('d',n<=j));
+  const done=S.slice(0,i).reduce((a,x)=>a+x.st.length,0)+j+1;
+  $('#pb').style.width=done/total*100+'%';$('#cn').textContent='Paso '+done+' de '+total;
+  $('#pl').textContent=playing?'❚❚ Pausa':(done===total?'↻ Repetir':'▶ Reproducir');
+  clearTimeout(tm);if(playing)tm=setTimeout(next,j===0?3600:3200);
+}
+function next(){if(j<S[i].st.length-1){j++;paint(false)}else if(i<S.length-1){i++;j=0;paint(true)}else{playing=false;paint(false)}}
+function goto(n,redo=true){i=Math.max(0,Math.min(S.length-1,n));j=0;paint(true)}
+$('#pl').onclick=()=>{if(!playing&&i===S.length-1&&j===S[i].st.length-1){i=0;j=0;playing=true;paint(true)}else{playing=!playing;paint(false)}};
+$('#pv').onclick=()=>goto(i-1);$('#nx').onclick=()=>goto(i+1);
+$('#chips').onclick=e=>{const b=e.target.closest('[data-n]');if(b)goto(+b.dataset.n)};
+stage.onclick=e=>{const t=e.target.closest('.tg');if(t){t.classList.toggle('on');const n=stage.querySelectorAll('.tg.on').length;const b=stage.querySelector('.pgb-w b');if(b)b.textContent=n+' de 3 comprados';const g=stage.querySelector('.pgb i');if(g)g.style.width=n/3*100+'%'}};
+document.onkeydown=e=>{if(e.key===' '){e.preventDefault();$('#pl').click()}else if(e.key==='ArrowRight')goto(i+1);else if(e.key==='ArrowLeft')goto(i-1)};
+paint(true);
+</script>
+</body>
+</html>
